@@ -47,7 +47,7 @@ public class ChitCard {
      * Will reveal the card once the player has chosen it, then print the chosen card
      */
     public boolean revealCard(){
-        if(!revealed) {
+        if (!revealed) {
             revealed = true;
             System.out.println("You have chosen the " + this.quantity + "x" + this.actor.getName() + " card.");
             return true;

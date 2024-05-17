@@ -1,9 +1,9 @@
 package Gameboard;
 
 import Actors.DragonCharacter;
+import Game.ChitCard;
 import Game.Location;
 import Game.Player;
-import Game.ChitCard;
 import Utilities.AnimalLocation;
 import Utilities.CaveLocation;
 import Utilities.DragonLocation;
@@ -16,6 +16,7 @@ import java.util.List;
  * and te dragon tokens in the game. Responsible for enacting movement of dragon characters and checking if a win has
  * taken place
  * animal
+ *
  * @author Max Zhuang, Brandon Luu
  * @version 1.0.1
  */
@@ -71,10 +72,11 @@ public class GameBoard {
 
     /**
      * constructor for the game board
+     *
      * @param volcanoCards list of the 8 volcano cards
-     * @param lines String used to presesent the look of the board
+     * @param lines        String used to presesent the look of the board
      */
-    public GameBoard(ArrayList<VolcanoCard> volcanoCards, List<String> lines){
+    public GameBoard(ArrayList<VolcanoCard> volcanoCards, List<String> lines) {
         this.volcanoCards = volcanoCards;
         this.dragonLocation = DragonLocation.getInstance();
         this.animalLocation = AnimalLocation.getInstance();
@@ -84,6 +86,7 @@ public class GameBoard {
 
     /**
      * getter for winning player number
+     *
      * @return the number of the player that has won
      */
     public String getWinningPlayerName() {
@@ -92,17 +95,19 @@ public class GameBoard {
 
     /**
      * getter for achieved victory flag
+     *
      * @return flag used to see if victory as been achieved by a player
      */
-    public boolean getAchievedVictory(){
+    public boolean getAchievedVictory() {
         return achievedVictory;
     }
 
     /**
      * sets up the board and its locations using a string input that depicts how the map should look
+     *
      * @param lines string input that depicts how the map should look
      */
-    private void createStringMap(List<String> lines){
+    private void createStringMap(List<String> lines) {
         int width = lines.get(0).length();
         int height = lines.size();
         initialiseMap(width, height);
@@ -117,16 +122,17 @@ public class GameBoard {
 
     /**
      * Initialises all locations on the board
-     * @param width width of the board
+     *
+     * @param width  width of the board
      * @param height height of the board
      */
-    private void initialiseMap(int width, int height){
+    private void initialiseMap(int width, int height) {
         List<Integer> widths = new ArrayList<>();
         List<Integer> heights = new ArrayList<>();
-        for (int i = 0; i < width; i++){
+        for (int i = 0; i < width; i++) {
             widths.add(i);
         }
-        for (int i = 0; i < height; i++){
+        for (int i = 0; i < height; i++) {
             heights.add(i);
         }
 
@@ -146,20 +152,21 @@ public class GameBoard {
 
     /**
      * retrieves the location at the given coordinates
+     *
      * @param x x coordinate
      * @param y y coordinate
      * @return location at the given coordinates
      */
-    public Location at(int x, int y){
+    public Location at(int x, int y) {
         return board[x][y];
     }
 
     /**
      * sets up locations of each of the volcano cards
      */
-    public void setLocations(){
+    public void setLocations() {
 
-        for(int i = 0; i < volcanoCards.size(); i++){
+        for (int i = 0; i < volcanoCards.size(); i++) {
             volcanoCards.get(i).setLocation(i, this);
         }
     }
@@ -170,10 +177,11 @@ public class GameBoard {
 
     /**
      * add method to the list containing all teh walkable locations
+     *
      * @param location location to be added
      */
-    public void addToBoardLocations(Location location){
-        if(boardLocations == null){
+    public void addToBoardLocations(Location location) {
+        if (boardLocations == null) {
             boardLocations = new ArrayList<>();
         }
         boardLocations.add(location);
@@ -182,30 +190,30 @@ public class GameBoard {
     /**
      * prints out the current state of the board to console
      */
-    public void draw(){
-        for(int y : heights){
-            for (int x : widths){
-                System.out.print(this.at(x,y).getDisplayChar());
+    public void draw() {
+        for (int y : heights) {
+            for (int x : widths) {
+                System.out.print(this.at(x, y).getDisplayChar());
             }
             System.out.println("");
         }
     }
 
-    public void printCurrentLocation(DragonCharacter dragonCharacter){
+    public void printCurrentLocation(DragonCharacter dragonCharacter) {
         Location currLocation = dragonLocation.getLocation(dragonCharacter);
-        if (caveLocation.hasCave(currLocation)){
+        if (caveLocation.hasCave(currLocation)) {
             System.out.println("Player " + dragonCharacter.getName() + " is currently in their cave");
             Location caveEntrance = caveLocation.getCave(currLocation).getCaveEntrance();
             System.out.println("Try to find a " + animalLocation.getActorAt(caveEntrance).getName() + " card!");
-        }
-        else{
+        } else {
             System.out.println("Player " + dragonCharacter.getName() + " is current on a tile with the animal " + animalLocation.getActorAt(currLocation).getName());
         }
     }
 
     /**
      * Completes movement of the dragon character that represents the cyurent player
-     * @param player the current player
+     *
+     * @param player        the current player
      * @param numberOfMoves the number of moves to be made
      */
     /*
@@ -285,7 +293,6 @@ public class GameBoard {
         }
     }
     */
-
     public void moveDragonCharacter(Player player, int numberOfMoves) {
         DragonCharacter dragonCharacter = player.getDragonCharacter();
         ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
@@ -293,11 +300,10 @@ public class GameBoard {
         int newLocationIndex = locationIndex + numberOfMoves;
         movedThisTurn = false;
 
-        if (newLocationIndex >= locationSet.size()){
+        if (newLocationIndex >= locationSet.size()) {
             newLocationIndex = locationIndex;
             System.out.println("Oh no! You have gone past your cave. You will now return to your original location");
-        }
-        else {
+        } else {
             if (newLocationIndex < 0) {
                 newLocationIndex = 0;
             }
@@ -312,7 +318,7 @@ public class GameBoard {
             }
         }
 
-        if (dragonCharacter.getLocationIndex() == locationSet.size()-1){
+        if (dragonCharacter.getLocationIndex() == locationSet.size() - 1) {
             achievedVictory = true;
             winningPlayerName = dragonCharacter.getName();
         }
@@ -320,12 +326,13 @@ public class GameBoard {
 
     /**
      * Methods to ensure no index error when traversing the list of walkable locations
+     *
      * @param boardLocation original index
      * @return fixed index
      */
-    private int checkBoardLocationIndexing(int boardLocation){
+    private int checkBoardLocationIndexing(int boardLocation) {
         int fixedBoardLocation = boardLocation;
-        if (boardLocation >= boardLocations.size()){
+        if (boardLocation >= boardLocations.size()) {
             fixedBoardLocation = 0;
         } else if (boardLocation < 0) {
             fixedBoardLocation = boardLocations.size() - 1;
@@ -376,16 +383,18 @@ public class GameBoard {
         return false;
     }
     */
+
     /**
      * Inserts the dragon characters onto the board at the start of the game
+     *
      * @param dragonCharacter the dragon character to insert
      */
-    public void insertDragonCharacter(DragonCharacter dragonCharacter){
-        for (VolcanoCard volcanoCard : volcanoCards){
-            if (volcanoCard.hasCave()){
+    public void insertDragonCharacter(DragonCharacter dragonCharacter) {
+        for (VolcanoCard volcanoCard : volcanoCards) {
+            if (volcanoCard.hasCave()) {
                 Cave cave = volcanoCard.getCave();
                 Location caveLoc = caveLocation.getLocation(cave);
-                if (dragonLocation.actorPresent(caveLoc) == false){
+                if (dragonLocation.actorPresent(caveLoc) == false) {
                     dragonLocation.add(dragonCharacter, caveLoc);
                     dragonCharacter.setStartingCave(cave);
                     ArrayList<Location> locationSet = new ArrayList<>();
@@ -400,9 +409,9 @@ public class GameBoard {
         }
     }
 
-    private void setLocationSet(ArrayList<Location> locationSet, Location caveEntrance){
+    private void setLocationSet(ArrayList<Location> locationSet, Location caveEntrance) {
         int index = boardLocations.indexOf(caveEntrance);
-        for(int i=0; i<=boardLocations.size(); i++){
+        for (int i = 0; i <= boardLocations.size(); i++) {
             locationSet.add(boardLocations.get(index));
             index++;
             index = checkBoardLocationIndexing(index);
@@ -412,14 +421,15 @@ public class GameBoard {
 
     /**
      * checks if the player has chosen a matching card for their current location
+     *
      * @param chitCard chit card being checked
      * @return
      */
-    public boolean checkChitCardMatches(DragonCharacter dragonCharacter, ChitCard chitCard){
+    public boolean checkChitCardMatches(DragonCharacter dragonCharacter, ChitCard chitCard) {
         Location currLocation = dragonLocation.getLocation(dragonCharacter);
-        if (caveLocation.hasCave(currLocation)){
+        if (caveLocation.hasCave(currLocation)) {
             Cave cave = caveLocation.getCave(currLocation);
-            if(chitCard.getActor().getName() == animalLocation.getActorAt(cave.getCaveEntrance()).getName()){
+            if (chitCard.getActor().getName() == animalLocation.getActorAt(cave.getCaveEntrance()).getName()) {
                 return true;
             }
         } else if (chitCard.getActor().getName() == animalLocation.getActorAt(currLocation).getName()) {

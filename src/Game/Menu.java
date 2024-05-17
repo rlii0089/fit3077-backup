@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * A class used for printing messages for the user to see
- * @author Max Zhuang, Brandon Luu
+ * @author Max Zhuang, Brandon Luu, Raymond Li
  * @version 1.0.1
  */
 
@@ -17,17 +17,17 @@ public class Menu {
     /**
      * game board used in the game
      */
-    private GameBoard gameBoard;
+    private final GameBoard gameBoard;
 
     /**
      * A list of the chit cards in the game
      */
-    private ArrayList<ChitCard> chitCards;
+    private final ArrayList<ChitCard> chitCards;
 
     /**
      * scanner to take in user input
      */
-    private Scanner scanner;
+    private final Scanner scanner;
 
     /**
      * constructor for menu
@@ -39,11 +39,6 @@ public class Menu {
         this.chitCards = chitCards;
         this.scanner = new Scanner(System.in);
     }
-
-    /**
-     * displays initial screen of the game, taking in number of players and birthdays to determine order
-     */
-    public void displayInitialScreen(){}
 
     /**
      * displays current state of game board, the list of chit cards and message to take in player input
@@ -64,8 +59,7 @@ public class Menu {
      */
     public void displayVictoryScreen(String winningPlayerName, GameBoard gameBoard){
         gameBoard.draw();
-        System.out.println("Congratulations!!!!");
-        System.out.println("Player " + winningPlayerName + " has won the game!");
+        System.out.println("Congratulations!!!!\n" + "Player " + winningPlayerName + " has won the game!");
         ASCIIDisplayMessage.display(ASCIIDisplayMessage.YOU_WIN);
     }
 
@@ -108,7 +102,7 @@ public class Menu {
 //    }
 
     private void printEmptyLine(){
-        System.out.println("");
+        System.out.println();
     }
 
 }

@@ -1,6 +1,7 @@
 package Game;
 
-import Actors.*;
+import Actors.DragonCharacter;
+import Actors.PirateSkeleton;
 import Gameboard.GameBoard;
 import Utilities.ASCIIDisplayMessage;
 import Utilities.Engine;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 /**
  * A class representing the Fiery Dragon game. Contains the players in the game, the game board and is responsible for
  * running the fiery dragon game and communicating between player and the game.
+ *
  * @author Max Zhuang, Brandon Luu, Jeremy Ockerby
  * @version 1.0.1
  */
@@ -45,10 +47,16 @@ public class Game {
     private String winningPlayerName;
 
     /**
+     * A string to display when a player's turn is over
+     */
+    private static final String TURN_OVER = "Your turn is now over!\n";
+
+    /**
      * Constructor for game
+     *
      * @param gameBoard The game board used in this instance of the Fiery Dragon game
      */
-    public Game(GameBoard gameBoard){
+    public Game(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
 
         ASCIIDisplayMessage.display(ASCIIDisplayMessage.FIERY_DRAGONS);
@@ -65,24 +73,24 @@ public class Game {
      * input from the player whose turn it is to go, and finally enact the effects the players move will have on
      * the state of the game. The majority of the game will run in this loop.
      */
-    public void run(){
+    public void run() {
         Menu menu = new Menu(gameBoard, chitCards);
 
-        while(stillRunning) {
+        while (stillRunning) {
 
             for (int i = 0; i < players.size(); i++) {
                 DragonCharacter dragonCharacter = players.get(i).getDragonCharacter();
                 System.out.println("========== Player " + dragonCharacter.getName() + "'s Turn ==========");
                 while (!turnFinished) {
                     menu.display(dragonCharacter);
-                    int userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ",0,16);
+                    int userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ", 0, 16);
                     processTurn(players.get(i), userInput, menu);
                 }
                 for (int j = 0; j < chitCards.size(); j++) {
                     chitCards.get(j).resetCard();
                 }
                 turnFinished = false;
-                if(!stillRunning){
+                if (!stillRunning) {
                     break;
                 }
             }
@@ -93,41 +101,44 @@ public class Game {
     /**
      * Checks to see if the players pick corresponds to a chit card resulting in a movement of their dragon character,
      * if so, moves their dragon character.
-     * @param player The player whose move it is
+     *
+     * @param player    The player whose move it is
      * @param userInput The chit card that the player chooses to flip
      */
-    private void processTurn(Player player, int userInput, Menu menu){
-        ChitCard currCard = chitCards.get(userInput-1);
-        while(!currCard.revealCard()){
+    private void processTurn(Player player, int userInput, Menu menu) {
+        ChitCard currCard = chitCards.get(userInput - 1);
+
+        // If the player tries to flip a card that has already been flipped this turn, ask them to choose again
+        while (!currCard.revealCard()) {
             System.out.println("This card has already been flipped this turn.");
-            userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ",0,16);
-            currCard = chitCards.get(userInput-1);
+            userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ", 0, 16);
+            currCard = chitCards.get(userInput - 1);
         }
 
-        if (currCard.getActor().getClass().equals(PirateSkeleton.class)){
+        // If the player finds a pirate skeleton, move the player backwards
+        if (currCard.getActor().getClass().equals(PirateSkeleton.class)) {
             System.out.println("You will be punished. You will move backwards " + currCard.quantity + " spaces.\n");
             gameBoard.moveDragonCharacter(player, currCard.quantity * -1);
-            System.out.println("Your turn is now over!\n");
+            System.out.println(TURN_OVER);
             turnFinished = true;
-        }
-        else{
-            if(gameBoard.checkChitCardMatches(player.getDragonCharacter(), currCard)){
+        } else {
+            // If the player finds a match, move the player forward
+            if (gameBoard.checkChitCardMatches(player.getDragonCharacter(), currCard)) {
                 System.out.println("You found a match! You will now move forward " + currCard.quantity + " spaces.\n");
                 gameBoard.moveDragonCharacter(player, currCard.quantity);
-                if (!gameBoard.isMovedThisTurn()){
-                    System.out.println("Your turn is now over!\n");
+                if (!gameBoard.isMovedThisTurn()) {
+                    System.out.println(TURN_OVER);
                     turnFinished = true;
                 }
-            }
-            else{
-                System.out.println("You did not find a match. You will NOT move.");
-                System.out.println("Your turn is now over!\n");
+                // If the player finds a non-matching card, end their turn
+            } else {
+                System.out.println("You did not find a match. You will NOT move.\n");
+                System.out.println(TURN_OVER);
                 turnFinished = true;
             }
         }
 
-
-        if (gameBoard.getAchievedVictory() == true){
+        if (gameBoard.getAchievedVictory()) {
             turnFinished = true;
             stillRunning = false;
             winningPlayerName = gameBoard.getWinningPlayerName();

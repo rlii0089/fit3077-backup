@@ -7,6 +7,7 @@ import Utilities.AnimalLocation;
 /**
  * A class that represents the tile object that makes of the three spots in a volcano card, each tile will contain one
  * animal
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -23,11 +24,12 @@ public class Tile {
     /**
      * Constructor of tile
      */
-    public Tile(){
+    public Tile() {
     }
 
     /**
      * getter of animal
+     *
      * @return the animal contained in the tile
      */
     public Animal getAnimal() {
@@ -36,6 +38,7 @@ public class Tile {
 
     /**
      * setter of animal
+     *
      * @param animal the animal contained in the tile
      */
     public void setAnimal(Animal animal) {
@@ -44,9 +47,10 @@ public class Tile {
 
     /**
      * setter of location
+     *
      * @param location the location of the tile
      */
-    public void setLocation(Location location){
+    public void setLocation(Location location) {
         this.location = location;
         AnimalLocation.getInstance().add(animal, location);
     }

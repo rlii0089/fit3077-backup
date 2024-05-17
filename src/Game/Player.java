@@ -4,6 +4,7 @@ import Actors.DragonCharacter;
 
 /**
  * A class used to represent a player of the game
+ *
  * @author Max Zhuang, Brandon Luu
  * @version 1.0.1
  */
@@ -21,15 +22,17 @@ public class Player {
 
     /**
      * Constructor for player
+     *
      * @param dragonCharacter the dragon token thus player controls
      */
-    public Player(DragonCharacter dragonCharacter, int age){
+    public Player(DragonCharacter dragonCharacter, int age) {
         this.dragonCharacter = dragonCharacter;
         this.age = age;
     }
 
     /**
      * getter for dragon character
+     *
      * @return dragon character the player controls
      */
     public DragonCharacter getDragonCharacter() {
@@ -38,6 +41,7 @@ public class Player {
 
     /**
      * getter for player's age
+     *
      * @return player's age
      */
     public int getAge() {

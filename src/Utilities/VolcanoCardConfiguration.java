@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 /**
  * Configuration for what animals should be on volcano cards and locations of volcano cards
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -22,10 +23,10 @@ public class VolcanoCardConfiguration {
     /**
      * Constructor for VolcanoCardConfiguration
      */
-    private VolcanoCardConfiguration(){
+    private VolcanoCardConfiguration() {
         cavedConfiguration = new ArrayList<>();
         nonCavedConfiguration = new ArrayList<>();
-        cavedConfiguration.add(new ArrayList<>(Arrays.asList(new BabyDragon(),new Bat(), new Spider())));
+        cavedConfiguration.add(new ArrayList<>(Arrays.asList(new BabyDragon(), new Bat(), new Spider())));
         cavedConfiguration.add(new ArrayList<>(Arrays.asList(new Salamander(), new Spider(), new Bat())));
         cavedConfiguration.add(new ArrayList<>(Arrays.asList(new Spider(), new Salamander(), new BabyDragon())));
         cavedConfiguration.add(new ArrayList<>(Arrays.asList(new Bat(), new Spider(), new BabyDragon())));
@@ -47,10 +48,11 @@ public class VolcanoCardConfiguration {
 
     /**
      * gets single instance of this class
+     *
      * @return instance of this class
      */
-    public static VolcanoCardConfiguration getInstance(){
-        if (instance == null){
+    public static VolcanoCardConfiguration getInstance() {
+        if (instance == null) {
             instance = new VolcanoCardConfiguration();
         }
         return instance;
@@ -58,6 +60,7 @@ public class VolcanoCardConfiguration {
 
     /**
      * gets what animals should be on volcano cards with caves
+     *
      * @return list of what animals should be on volcano cards with caves
      */
     public ArrayList<ArrayList<Animal>> getCavedConfiguration() {
@@ -66,6 +69,7 @@ public class VolcanoCardConfiguration {
 
     /**
      * gets what animals should be on volcano cards with no caves
+     *
      * @return list of what animals should be on volcano cards with no caves
      */
     public ArrayList<ArrayList<Animal>> getNonCavedConfiguration() {
@@ -74,10 +78,11 @@ public class VolcanoCardConfiguration {
 
     /**
      * get coordinates of initial location of the volcano card
+     *
      * @param index identifier of the volcano card to get coordinates of
      * @return coordinates of initial location of the volcano card
      */
-    public ArrayList<Integer> getLocation(int index){
+    public ArrayList<Integer> getLocation(int index) {
         return locations.get(index);
     }
 }

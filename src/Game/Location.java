@@ -6,7 +6,8 @@ import Utilities.DragonLocation;
 
 /**
  * A class representing a location on the game board, responsible for keeping track of character representation.
- * @author Max Zhuang
+ *
+ * @author Max Zhuang, Raymond Li
  * @version 1.0.0
  */
 
@@ -28,32 +29,36 @@ public class Location implements Printable {
 
     /**
      * Constructor for Location
+     *
      * @param x the x coordinate of the location
      * @param y the y coordinate of the location
      */
-    public Location(int x, int y){
+    public Location(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     /**
      * getter for x
+     *
      * @return the x coordinate of the location
      */
-    public int x(){
+    public int x() {
         return x;
     }
 
     /**
      * getter for y
+     *
      * @return the y coordinate of the location
      */
-    public int y(){
+    public int y() {
         return y;
     }
 
     /**
      * setter for display character
+     *
      * @param displayCharacter character to display at this location
      */
     public void setDisplayCharacter(char displayCharacter) {
@@ -62,29 +67,37 @@ public class Location implements Printable {
 
     /**
      * getter for display character, the priority goes actor -> cave -> original map character
+     *
      * @return character to display at this location
      */
-    public char getDisplayChar(){
-        if (dragonPresent()){
-            return DragonLocation.getInstance().getActorAt(this).getDisplayChar();
-        }
-        if (animalPresent()){
-            return AnimalLocation.getInstance().getActorAt(this).getDisplayChar();
-        }
-        if (cavePresent()){
-            return CaveLocation.getInstance().getCave(this).getDisplayChar();
-        }
-        else{
-            return displayCharacter;
-        }
+    public char getDisplayChar() {
+//        if (dragonPresent()){
+//            return DragonLocation.getInstance().getActorAt(this).getDisplayChar();
+//        }
+//        if (animalPresent()){
+//            return AnimalLocation.getInstance().getActorAt(this).getDisplayChar();
+//        }
+//        if (cavePresent()){
+//            return CaveLocation.getInstance().getCave(this).getDisplayChar();
+//        }
+//        else{
+//            return displayCharacter;
+//        }
+
+        // optimised implementation
+        return dragonPresent() ? DragonLocation.getInstance().getActorAt(this).getDisplayChar() :
+                animalPresent() ? AnimalLocation.getInstance().getActorAt(this).getDisplayChar() :
+                        cavePresent() ? CaveLocation.getInstance().getCave(this).getDisplayChar() :
+                                displayCharacter;
     }
 
     /**
      * checks to see if an dragon token is at this location
+     *
      * @return true if an dragon token is at this location, false otherwise
      */
-    private Boolean dragonPresent(){
-        if (DragonLocation.getInstance().actorPresent(this) == false){
+    private Boolean dragonPresent() {
+        if (DragonLocation.getInstance().actorPresent(this) == false) {
             return false;
         }
         return true;
@@ -92,10 +105,11 @@ public class Location implements Printable {
 
     /**
      * checks to see if an animal is at this location
+     *
      * @return true if an animal is at this location, false otherwise
      */
-    private Boolean animalPresent(){
-        if (AnimalLocation.getInstance().actorPresent(this) == false){
+    private Boolean animalPresent() {
+        if (AnimalLocation.getInstance().actorPresent(this) == false) {
             return false;
         }
         return true;
@@ -103,9 +117,10 @@ public class Location implements Printable {
 
     /**
      * checks to see if a cave is at this location
+     *
      * @return true if a cave is at this location, false otherwise
      */
-    public Boolean cavePresent(){
+    public Boolean cavePresent() {
         return CaveLocation.getInstance().hasCave(this);
     }
 

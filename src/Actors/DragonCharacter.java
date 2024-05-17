@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * An entity that acts as the token for player which starts in a cave and moves around the board
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -28,8 +29,9 @@ public class DragonCharacter extends Actor {
 
     /**
      * Constructor for dragon character
-     * @param name the name of the dragon character
-     * @param displayChar the display character of the dragon token
+     *
+     * @param name         the name of the dragon character
+     * @param displayChar  the display character of the dragon token
      * @param playerNumber the number of the player which is is in charge of this token
      */
     public DragonCharacter(String name, char displayChar, int playerNumber) {
@@ -39,6 +41,7 @@ public class DragonCharacter extends Actor {
 
     /**
      * getter method for player number
+     *
      * @return the number of the player which is is in charge of this token
      */
     public int getPlayerNumber() {
@@ -47,6 +50,7 @@ public class DragonCharacter extends Actor {
 
     /**
      * getter method for the starting cave
+     *
      * @return The cave that the dragon character will start in when the game first starts
      */
     public Cave getStartingCave() {
@@ -55,6 +59,7 @@ public class DragonCharacter extends Actor {
 
     /**
      * setter of the starting cave
+     *
      * @param startingCave The cave that the dragon character will start in when the game first starts
      */
     public void setStartingCave(Cave startingCave) {

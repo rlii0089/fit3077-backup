@@ -8,7 +8,7 @@ public class ChitCardIcon implements Printable {
     private ChitCard chitCard;
     private Location location;
 
-    public ChitCardIcon(){
+    public ChitCardIcon() {
     }
 
     public ChitCard getChitCard() {

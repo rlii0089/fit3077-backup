@@ -4,6 +4,7 @@ import Game.Printable;
 
 /**
  * An entity that is alive and a part of the game
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -20,16 +21,18 @@ public abstract class Actor implements Printable {
 
     /**
      * Constructor for the actor
-     * @param name name of actor
+     *
+     * @param name        name of actor
      * @param displayChar character which depicts the actor shown when displayed
      */
-    public Actor(String name, char displayChar){
+    public Actor(String name, char displayChar) {
         this.name = name;
         this.displayChar = displayChar;
     }
 
     /**
      * retrieves name of actor
+     *
      * @return name of actor
      */
     public String getName() {
@@ -38,6 +41,7 @@ public abstract class Actor implements Printable {
 
     /**
      * retrieves display character of actor
+     *
      * @return display character of actor
      */
     public char getDisplayChar() {

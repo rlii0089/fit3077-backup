@@ -5,6 +5,7 @@ import Game.Printable;
 
 /**
  * A class that represents the cave object in the game fiery dragon spread across the board
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -18,11 +19,12 @@ public class Cave implements Printable {
     /**
      * constructor for cave
      */
-    public Cave(){
+    public Cave() {
     }
 
     /**
      * getter for cave entrance
+     *
      * @return Location of the tile directly outside the cave
      */
     public Location getCaveEntrance() {
@@ -31,6 +33,7 @@ public class Cave implements Printable {
 
     /**
      * setter for cave entrance
+     *
      * @param caveEntrance Location of the tile directly outside the cave
      */
     public void setCaveEntrance(Location caveEntrance) {
@@ -39,6 +42,7 @@ public class Cave implements Printable {
 
     /**
      * gets the character that represents cave
+     *
      * @return the character that represents cave
      * @return
      */

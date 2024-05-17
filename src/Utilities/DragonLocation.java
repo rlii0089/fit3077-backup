@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * A class keeps track of the location of every actor on the game board
+ *
  * @author Max Zhuang
  * @version 1.0.0
  */
@@ -32,14 +33,15 @@ public class DragonLocation {
     /**
      * constructor for ActorLocation
      */
-    private DragonLocation(){
+    private DragonLocation() {
         locationToActor = new HashMap<Location, DragonCharacter>();
         actorToLocation = new HashMap<DragonCharacter, Location>();
     }
 
     /**
      * adds actor to record
-     * @param dragon actor to add
+     *
+     * @param dragon   actor to add
      * @param location location of the actor
      */
     public void add(DragonCharacter dragon, Location location) {
@@ -61,15 +63,17 @@ public class DragonLocation {
 
     /**
      * checker to see if actor is at location
+     *
      * @param location location to check
      * @return
      */
-    public Boolean actorPresent(Location location){
+    public Boolean actorPresent(Location location) {
         return locationToActor.containsKey(location);
     }
 
     /**
      * get actor at the input location
+     *
      * @param location location to retrieve actor
      * @return
      */
@@ -79,20 +83,22 @@ public class DragonLocation {
 
     /**
      * get location of actor
+     *
      * @param actor actor to get location of
      * @return
      */
-    public Location getLocation(Actor actor){
+    public Location getLocation(Actor actor) {
         return actorToLocation.get(actor);
     }
 
 
     /**
      * get an instance of this class
+     *
      * @return instance of this class
      */
     public static DragonLocation getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new DragonLocation();
         }
         return instance;
