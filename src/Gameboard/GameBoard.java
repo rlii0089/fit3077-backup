@@ -4,6 +4,7 @@ import Actors.DragonCharacter;
 import Game.ChitCard;
 import Game.Location;
 import Game.Player;
+import Utilities.ASCIIDisplayMessage;
 import Utilities.AnimalLocation;
 import Utilities.CaveLocation;
 import Utilities.DragonLocation;
@@ -276,17 +277,28 @@ public class GameBoard {
         }
     }
 
-    public void playerDistanceFromCave(Player player){
+    /**
+     * Method to return the number of tiles left for a player to reach their cave
+     * @param player the player whose tiles are being counted
+     * @return the number of tiles left for a player to reach their cave
+     */
+    public static int numberOfTilesFromCave(Player player){
         DragonCharacter dragonCharacter = player.getDragonCharacter();
 
-        int locationIndex = dragonCharacter.getLocationIndex() - 1; // subtract 1 to get the location before the current location
-        int distanceToCave = dragonCharacter.getOriginalLocationSet().size() - locationIndex;
-        System.out.println("Player " + dragonCharacter.getName() + " is " + distanceToCave + " spaces away from their cave.");
+        // Add one since location index starts at 0
+        int locationIndex = dragonCharacter.getLocationIndex() + 1;
+
+        return dragonCharacter.getOriginalLocationSet().size() - locationIndex;
     }
 
+    /**
+     * Sorts the players based on the number of tiles left for them to reach their cave and prints out the leaderboard
+     * @param players list of players to be sorted
+     */
     public void allPLayersLeaderboardRanking(ArrayList<Player> players){
         ArrayList<Player> listOfPlayers = new ArrayList<>(players);
 
+        // Sort the players based on the number of tiles left for them to reach their cave
         listOfPlayers.sort((p1, p2) -> {
             DragonCharacter dragonCharacter1 = p1.getDragonCharacter();
             DragonCharacter dragonCharacter2 = p2.getDragonCharacter();
@@ -297,11 +309,8 @@ public class GameBoard {
             return distanceToCave1 - distanceToCave2;
         });
 
-        int rank = 0;
-        for (Player player : listOfPlayers) {
-            System.out.println("Player " + player.getDragonCharacter().getName() + " is ranked " + ++rank);
-            playerDistanceFromCave(player);
-        }
+        // Print the leaderboard
+        ASCIIDisplayMessage.printLeaderboard(listOfPlayers);
     }
 
     /**

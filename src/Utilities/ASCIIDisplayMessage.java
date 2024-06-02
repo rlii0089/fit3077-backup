@@ -1,5 +1,10 @@
 package Utilities;
 
+import Game.Player;
+import Gameboard.GameBoard;
+
+import java.util.ArrayList;
+
 /**
  * A class that holds fancy messages used in game
  *
@@ -59,5 +64,55 @@ public class ASCIIDisplayMessage {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Prints the leaderboard
+     * @param players list of players
+     */
+    public static void printLeaderboard(ArrayList<Player> players) {
+        // Find the length of the longest player name
+        int maxPlayerNameLength = 0;
+        for (Player player : players) {
+            int nameLength = player.getDragonCharacter().getName().length();
+            if (nameLength > maxPlayerNameLength) {
+                maxPlayerNameLength = nameLength;
+            }
+        }
+
+        // Add 7 to the length to account for the "Player " prefix
+        int fullPLayerNameLength = maxPlayerNameLength + 7;
+
+        // Print the leaderboard
+        System.out.println("╔════════╦══" + repeatString("═", fullPLayerNameLength) + "══╦═══════════════════╗");
+        System.out.println("║  Rank  │  Player" + repeatString(" ", fullPLayerNameLength - 6) + "  │  Tiles Remaining  ║");
+        System.out.println("╠════════║══" + repeatString("═", fullPLayerNameLength) + "══║═══════════════════╣");
+
+        for (Player player : players) {
+            // If the number of tiles remaining contains 1 digit, add a leading 0
+            if (GameBoard.numberOfTilesFromCave(player) < 10) {
+                System.out.printf("║   %d    │  %-" + fullPLayerNameLength + "s  │        0%d         ║%n",
+                        players.indexOf(player) + 1,
+                        "Player " + player.getDragonCharacter().getName(),
+                        GameBoard.numberOfTilesFromCave(player));
+            } else {
+                System.out.printf("║   %d    │  %-" + fullPLayerNameLength + "s  │        %d         ║%n",
+                        players.indexOf(player) + 1,
+                        "Player " + player.getDragonCharacter().getName(),
+                        GameBoard.numberOfTilesFromCave(player));
+            }
+        }
+
+        System.out.println("╚════════╩══" + repeatString("═", fullPLayerNameLength) + "══╩═══════════════════╝");
+    }
+
+    /**
+     * Repeats a string for a given number of times
+     * @param string string to repeat
+     * @param times number of times to repeat
+     * @return repeated string
+     */
+    public static String repeatString(String string, int times) {
+        return String.valueOf(string).repeat(Math.max(0, times));
     }
 }
