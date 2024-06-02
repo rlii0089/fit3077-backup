@@ -5,7 +5,7 @@ import Actors.DragonCharacter;
 /**
  * A class used to represent a player of the game
  *
- * @author Max Zhuang, Brandon Luu
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 

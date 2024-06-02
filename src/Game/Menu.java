@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * A class used for printing messages for the user to see
- * @author Max Zhuang, Brandon Luu, Raymond Li
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 
@@ -49,7 +49,7 @@ public class Menu {
         gameBoard.printCurrentLocation(dragonCharacter);
         printEmptyLine();
         displayChitCards();
-//      displayTemporaryMoveOptions();
+
 
     }
 
@@ -70,37 +70,18 @@ public class Menu {
         for (int i = 0; i < chitCards.size(); i++){
             String retVal = String.valueOf(i+1);
 //            if (chitCards.get(i).revealed == true){
-            retVal += ". " + chitCards.get(i).getActor().getName() + " x" +chitCards.get(i).getQuantity();
+                retVal += ". " + chitCards.get(i).getActor().getName() + " x" +chitCards.get(i).getQuantity();
 //            }
 //            else{
 //                retVal += ". Unknown";
-//            }
+  //          }
             System.out.println(retVal);
         }
     }
 
-
-//    /**
-//     * displays temp move options used to demonstrate winning of the game
-//     */
-//    private void displayTemporaryMoveOptions(){
-//        for (int i = chitCards.size()+1; i < chitCards.size() + 4; i++){
-//            System.out.print(i);
-//            System.out.print(". Move player by  ");
-//            System.out.print(i - chitCards.size());
-//            System.out.print(" squares");
-//            printEmptyLine();
-//        }
-//
-//        for (int i = chitCards.size() + 4; i < chitCards.size() + 6; i++){
-//            System.out.print(i);
-//            System.out.print(". Move player backwards by  ");
-//            System.out.print(i - chitCards.size() - 3);
-//            System.out.print(" squares");
-//            printEmptyLine();
-//        }
-//    }
-
+    /**
+     * Prints empty line
+     */
     private void printEmptyLine(){
         System.out.println();
     }

@@ -8,20 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A class keeps track of the location of every actor on the game board
+ * A class keeps track of the location of every dragon character on the game board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 
 public class DragonLocation {
     /**
-     * map that gets actor from location
+     * map that gets dragon character from location
      */
     private Map<Location, DragonCharacter> locationToActor;
 
     /**
-     * map that gets location from actor
+     * map that gets location from dragon character
      */
     private Map<DragonCharacter, Location> actorToLocation;
 
@@ -31,7 +31,7 @@ public class DragonLocation {
     private static DragonLocation instance;
 
     /**
-     * constructor for ActorLocation
+     * constructor for DragonLocation
      */
     private DragonLocation() {
         locationToActor = new HashMap<Location, DragonCharacter>();
@@ -39,7 +39,7 @@ public class DragonLocation {
     }
 
     /**
-     * adds actor to record
+     * adds dragon character to record
      *
      * @param dragon   actor to add
      * @param location location of the actor
@@ -50,9 +50,9 @@ public class DragonLocation {
     }
 
     /**
-     * move actor to new location
+     * move dragon character to new location
      *
-     * @param actor actor to move
+     * @param actor dragon character to move
      */
     public void move(DragonCharacter actor, Location newLocation) {
         Location oldLocation = actorToLocation.get(actor);
@@ -62,7 +62,7 @@ public class DragonLocation {
     }
 
     /**
-     * checker to see if actor is at location
+     * checker to see if dragon character is at location
      *
      * @param location location to check
      * @return
@@ -72,19 +72,19 @@ public class DragonLocation {
     }
 
     /**
-     * get actor at the input location
+     * get dragon character at the input location
      *
-     * @param location location to retrieve actor
-     * @return
+     * @param location location to retrieve dragon character
+     * @return dragon character at the location
      */
     public Actor getActorAt(Location location) {
         return locationToActor.get(location);
     }
 
     /**
-     * get location of actor
+     * get location of dragon character
      *
-     * @param actor actor to get location of
+     * @param actor dragon character to get location of
      * @return
      */
     public Location getLocation(Actor actor) {

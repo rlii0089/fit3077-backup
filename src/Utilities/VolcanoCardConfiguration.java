@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * Configuration for what animals should be on volcano cards and locations of volcano cards
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class VolcanoCardConfiguration {

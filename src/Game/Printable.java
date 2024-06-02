@@ -3,7 +3,7 @@ package Game;
 /**
  * Anything that can be printed into the console and cane be represented by a character in the UI
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public interface Printable {

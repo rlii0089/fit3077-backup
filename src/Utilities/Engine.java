@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * A class responsible for setting up all elements of the game at the beginning of the game
  *
- * @author Max Zhuang, Brandon Luu, Jeremy Ockerby, Raymond Li
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 
@@ -166,28 +166,7 @@ public class Engine {
      * @return list of the 16 chit cards
      */
     public ArrayList<ChitCard> generateChitCards() {
-//        ArrayList<ChitCard> chitCards = new ArrayList<>();
-//        for (int i = 0; i < 3; i++){
-//            ChitCard chitCard = new ChitCard(new Salamander(), i+1);
-//            chitCards.add(chitCard);
-//            chitCard = new ChitCard(new Bat(), i+1);
-//            chitCards.add(chitCard);
-//            chitCard = new ChitCard(new Spider(), i+1);
-//            chitCards.add(chitCard);
-//            chitCard = new ChitCard(new BabyDragon(), i+1);
-//            chitCards.add(chitCard);
-//        }
-//
-//        for (int i = 0; i < 2; i++){
-//            ChitCard chitCard = new ChitCard(new PirateSkeleton(), 1);
-//            chitCards.add(chitCard);
-//        }
-//        for (int i = 0; i < 2; i++){
-//            ChitCard chitCard = new ChitCard(new PirateSkeleton(), 2);
-//            chitCards.add(chitCard);
-//        }
 
-        // optimised implementation
         ArrayList<ChitCard> chitCards = new ArrayList<>();
         ArrayList<Animal> animals = new ArrayList<>(Arrays.asList(new Salamander(), new Bat(), new Spider(), new BabyDragon()));
         for (int i = 0; i < 3; i++) {
@@ -204,6 +183,8 @@ public class Engine {
             ChitCard chitCard = new ChitCard(new PirateSkeleton(), 2);
             chitCards.add(chitCard);
         }
+
+        chitCards.add(new ChitCard(new Snake(), 1));
 
         Collections.shuffle(chitCards);
         return chitCards;
@@ -249,24 +230,6 @@ public class Engine {
      * @return valid integer input value
      */
     public int getValidIntegerInput(String prompt, int lowerBound, int upperBound) {
-//        Scanner scanner = new Scanner(System.in);
-//        int userInput;
-//        while (true) {
-//            System.out.println(prompt);
-//            while (!scanner.hasNextInt()) {
-//                System.out.println("Invalid input. Please enter an integer.");
-//                System.out.println(prompt);
-//                scanner.next();
-//            }
-//            userInput = scanner.nextInt();
-//            if (userInput >= lowerBound && userInput <= upperBound) {
-//                return userInput;
-//            } else {
-//                System.out.printf("Please enter a number between %d and %d.%n", lowerBound, upperBound);
-//            }
-//        }
-
-        // optimised implementation with try-catch
         Scanner scanner = new Scanner(System.in);
         int userInput;
         while (true) {
@@ -319,18 +282,6 @@ public class Engine {
      * @param playerList list of player instances that have been created
      */
     public static void sortPlayerOrder(ArrayList<Player> playerList) {
-//        int n = playerList.size();
-//        for (int i = 0; i < n - 1; i++) {
-//            for (int j = 0; j < n - i - 1; j++) {
-//                if (playerList.get(j).getAge() > playerList.get(j + 1).getAge()) {
-//                    Player temp = playerList.get(j);
-//                    playerList.set(j, playerList.get(j + 1));
-//                    playerList.set(j + 1, temp);
-//                }
-//            }
-//        }
-
-        // optimised implementation
         playerList.sort(Comparator.comparingInt(Player::getAge));
     }
 

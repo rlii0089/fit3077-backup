@@ -41,6 +41,7 @@ public class Application {
                 "                                                ");
 
         GameBoard gameBoard = Engine.getInstance().generateGameBoard(board);
+
         Game game = new Game(gameBoard);
         game.run();
     }

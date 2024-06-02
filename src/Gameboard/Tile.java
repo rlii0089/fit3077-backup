@@ -8,7 +8,7 @@ import Utilities.AnimalLocation;
  * A class that represents the tile object that makes of the three spots in a volcano card, each tile will contain one
  * animal
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class Tile {

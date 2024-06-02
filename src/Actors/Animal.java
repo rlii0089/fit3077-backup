@@ -3,7 +3,7 @@ package Actors;
 /**
  * A creature that exists in the Fiery Dragon game
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 

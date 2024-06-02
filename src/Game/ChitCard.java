@@ -4,7 +4,7 @@ import Actors.Actor;
 
 /**
  * A class representing physical chit card in Fiery Dragon which the player flips over during their turn
- * @author Max Zhuang, Brandon Luu
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 public class ChitCard {
@@ -35,10 +35,18 @@ public class ChitCard {
         this.revealed = false;
     }
 
+    /**
+     * getter for the actor on this chit card
+     * @return actor on this chit card
+     */
     public Actor getActor(){
         return this.actor;
     }
 
+    /**
+     * getter for the quantity of the actor on this chit card
+     * @return the quantity of the actor on this chit card
+     */
     public int getQuantity() {
         return quantity;
     }

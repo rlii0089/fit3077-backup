@@ -2,6 +2,7 @@ package Game;
 
 import Actors.DragonCharacter;
 import Actors.PirateSkeleton;
+import Actors.Snake;
 import Gameboard.GameBoard;
 import Utilities.ASCIIDisplayMessage;
 import Utilities.Engine;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * A class representing the Fiery Dragon game. Contains the players in the game, the game board and is responsible for
  * running the fiery dragon game and communicating between player and the game.
  *
- * @author Max Zhuang, Brandon Luu, Jeremy Ockerby
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 public class Game {
@@ -83,7 +84,7 @@ public class Game {
                 System.out.println("========== Player " + dragonCharacter.getName() + "'s Turn ==========");
                 while (!turnFinished) {
                     menu.display(dragonCharacter);
-                    int userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ", 0, 16);
+                    int userInput = Engine.getInstance().getValidIntegerInput("Please Enter Your Move: ", 0, 17);
                     processTurn(players.get(i), userInput, menu);
                 }
                 for (int j = 0; j < chitCards.size(); j++) {
@@ -121,6 +122,9 @@ public class Game {
             gameBoard.moveDragonCharacter(player, currCard.quantity * -1);
             System.out.println(TURN_OVER);
             turnFinished = true;
+        } else if (currCard.getActor().getClass().equals(Snake.class)) {
+            System.out.println("Ouch! You have been bitten by a snake! You will now fall back to a cave to recover.\n");
+            gameBoard.returnToCave(player);
         } else {
             // If the player finds a match, move the player forward
             if (gameBoard.checkChitCardMatches(player.getDragonCharacter(), currCard)) {

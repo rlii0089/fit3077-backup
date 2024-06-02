@@ -7,15 +7,21 @@ import Game.Location;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class keeps track of the location of every Animal on the game board
+ *
+ * @author CL_Monday06pm_Team001
+ * @version 1.0.0
+ */
 public class AnimalLocation {
 
     /**
-     * map that gets actor from location
+     * map that gets Animal from location
      */
     private Map<Location, Animal> locationToAnimal;
 
     /**
-     * map that gets location from actor
+     * map that gets location from Animal
      */
     private Map<Animal, Location> animalToLocation;
 
@@ -26,7 +32,7 @@ public class AnimalLocation {
     private static AnimalLocation instance;
 
     /**
-     * constructor for ActorLocation
+     * constructor for AnimalLocation
      */
     private AnimalLocation() {
         locationToAnimal = new HashMap<Location, Animal>();
@@ -34,7 +40,7 @@ public class AnimalLocation {
     }
 
     /**
-     * adds actor to record
+     * adds animal to record
      *
      * @param animal   actor to add
      * @param location location of the actor
@@ -45,7 +51,7 @@ public class AnimalLocation {
     }
 
     /**
-     * checker to see if actor is at location
+     * checker to see if animal is at location
      *
      * @param location location to check
      * @return
@@ -55,7 +61,7 @@ public class AnimalLocation {
     }
 
     /**
-     * get actor at the input location
+     * get animal at the input location
      *
      * @param location location to retrieve actor
      * @return
@@ -65,7 +71,7 @@ public class AnimalLocation {
     }
 
     /**
-     * get location of actor
+     * get location of animal
      *
      * @param actor actor to get location of
      * @return

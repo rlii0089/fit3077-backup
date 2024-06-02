@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * An entity that acts as the token for player which starts in a cave and moves around the board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 
@@ -22,6 +22,8 @@ public class DragonCharacter extends Actor {
      * The number of the player in charge of this token
      */
     private int playerNumber;
+
+    private ArrayList<Location> originalLocationSet;
 
     private ArrayList<Location> locationSet;
 
@@ -66,6 +68,14 @@ public class DragonCharacter extends Actor {
         this.startingCave = startingCave;
     }
 
+
+    public ArrayList<Location> getOriginalLocationSet() {
+        return originalLocationSet;
+    }
+
+    public void setOriginalLocationSet(ArrayList<Location> originalLocationSet) {
+        this.originalLocationSet = originalLocationSet;
+    }
 
     public ArrayList<Location> getLocationSet() {
         return locationSet;

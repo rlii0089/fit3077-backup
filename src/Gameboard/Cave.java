@@ -6,7 +6,7 @@ import Game.Printable;
 /**
  * A class that represents the cave object in the game fiery dragon spread across the board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class Cave implements Printable {

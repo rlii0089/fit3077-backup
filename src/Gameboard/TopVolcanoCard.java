@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * A class that represents a volcano card on the top of the board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class TopVolcanoCard extends VolcanoCard {

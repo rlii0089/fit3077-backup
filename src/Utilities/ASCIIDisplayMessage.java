@@ -1,5 +1,11 @@
 package Utilities;
 
+/**
+ * A class that holds fancy messages used in game
+ *
+ * @author CL_Monday06pm_Team001
+ * @version 1.0.0
+ */
 public class ASCIIDisplayMessage {
     // Font name: Electronic
     public static String FIERY_DRAGONS =
@@ -40,6 +46,10 @@ public class ASCIIDisplayMessage {
                     "     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░▌      ▐░░▌▐░▌\n" +
                     "      ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀▀       ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀        ▀▀  ▀ \n";
 
+    /**
+     * Displays fancy messages to console
+      * @param message fancy message to display
+     */
     public static void display(String message) {
         for (int i = 0; i < message.length(); i++) {
             System.out.print(message.charAt(i));

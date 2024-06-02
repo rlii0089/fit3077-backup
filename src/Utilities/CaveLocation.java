@@ -3,13 +3,14 @@ package Utilities;
 import Game.Location;
 import Gameboard.Cave;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * A class keeps track of the location of every cave on the game board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class CaveLocation {
@@ -88,5 +89,13 @@ public class CaveLocation {
      */
     public Location getLocation(Cave cave) {
         return caveToLocation.get(cave);
+    }
+
+    public ArrayList<Cave> getAllCaves(){
+        ArrayList<Cave> returnList = new ArrayList<>();
+        for(Map.Entry<Cave, Location> entry : caveToLocation.entrySet()){
+            returnList.add(entry.getKey());
+        }
+        return returnList;
     }
 }

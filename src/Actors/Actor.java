@@ -5,7 +5,7 @@ import Game.Printable;
 /**
  * An entity that is alive and a part of the game
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public abstract class Actor implements Printable {

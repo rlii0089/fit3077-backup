@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * A class that represents a volcano card on the left side of the board
  *
- * @author Max Zhuang
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 public class LeftVolcanoCard extends VolcanoCard {
@@ -28,7 +28,6 @@ public class LeftVolcanoCard extends VolcanoCard {
         for (int i = 0; i < animalTiles.size(); i++) {
             Location tileLocation = board.at(location.x(), location.y() - 3 * i);
             animalTiles.get(i).setLocation(tileLocation);
-            //Location boardLocation = board.at(location.x() + 2, location.y() - 3*i);
             addToBoardLocations(board, tileLocation);
         }
 

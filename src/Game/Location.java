@@ -7,7 +7,7 @@ import Utilities.DragonLocation;
 /**
  * A class representing a location on the game board, responsible for keeping track of character representation.
  *
- * @author Max Zhuang, Raymond Li
+ * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
 
@@ -71,20 +71,6 @@ public class Location implements Printable {
      * @return character to display at this location
      */
     public char getDisplayChar() {
-//        if (dragonPresent()){
-//            return DragonLocation.getInstance().getActorAt(this).getDisplayChar();
-//        }
-//        if (animalPresent()){
-//            return AnimalLocation.getInstance().getActorAt(this).getDisplayChar();
-//        }
-//        if (cavePresent()){
-//            return CaveLocation.getInstance().getCave(this).getDisplayChar();
-//        }
-//        else{
-//            return displayCharacter;
-//        }
-
-        // optimised implementation
         return dragonPresent() ? DragonLocation.getInstance().getActorAt(this).getDisplayChar() :
                 animalPresent() ? AnimalLocation.getInstance().getActorAt(this).getDisplayChar() :
                         cavePresent() ? CaveLocation.getInstance().getCave(this).getDisplayChar() :

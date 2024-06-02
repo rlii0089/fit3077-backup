@@ -17,7 +17,7 @@ import java.util.List;
  * taken place
  * animal
  *
- * @author Max Zhuang, Brandon Luu
+ * @author CL_Monday06pm_Team001
  * @version 1.0.1
  */
 public class GameBoard {
@@ -51,6 +51,9 @@ public class GameBoard {
      */
     private AnimalLocation animalLocation;
 
+    /**
+     * A tracker for the locations of all caves in the game
+     */
     private CaveLocation caveLocation;
 
     /**
@@ -68,13 +71,16 @@ public class GameBoard {
      */
     private String winningPlayerName;
 
+    /**
+     * a flag that checks if a dragon token has moved locations this turn
+     */
     private boolean movedThisTurn;
 
     /**
      * constructor for the game board
      *
      * @param volcanoCards list of the 8 volcano cards
-     * @param lines        String used to presesent the look of the board
+     * @param lines        String used to present the look of the board
      */
     public GameBoard(ArrayList<VolcanoCard> volcanoCards, List<String> lines) {
         this.volcanoCards = volcanoCards;
@@ -171,6 +177,10 @@ public class GameBoard {
         }
     }
 
+    /**
+     * getter for movedThisTurn
+     * @return a flag that checks if a dragon token has moved locations this turn
+     */
     public boolean isMovedThisTurn() {
         return movedThisTurn;
     }
@@ -199,6 +209,11 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Prints out current location of the dragon token to menu so the player knows what animal he should aim to flip
+     * over
+     * @param dragonCharacter dragon character of the current player
+     */
     public void printCurrentLocation(DragonCharacter dragonCharacter) {
         Location currLocation = dragonLocation.getLocation(dragonCharacter);
         if (caveLocation.hasCave(currLocation)) {
@@ -210,115 +225,52 @@ public class GameBoard {
         }
     }
 
+
     /**
-     * Completes movement of the dragon character that represents the cyurent player
+     * Enacts movements of dragon tokens around the board. Firstly, the sequence of locations the specific dragon
+     * token needs to travel is extracted and the new location is found. Then checking is done to ensure the dragon
+     * token does not go past his starting cave, and does not move to a location where another dragon token is
+     * already there. Lastly, dragon token is moved accordingly using actorlocation.
      *
-     * @param player        the current player
-     * @param numberOfMoves the number of moves to be made
+     * @param player The player who the current turn belongs to
+     * @param numberOfMoves The number of moves the player should attempt to move
      */
-    /*
-    public void moveDragonCharacter(Player player, int numberOfMoves) {
-        ArrayList<Location> locationsThisTurn = new ArrayList<>();
-        DragonCharacter dragonCharacter = player.getDragonCharacter();
-        initiateMove(dragonCharacter, numberOfMoves, locationsThisTurn);
-    }
-    */
-    /*
-    /**
-     * Initiates the move of the dragon character. Firstly checking whether is a forward of backward movement. Then
-     * checking if the dragon character has almost won (if they have walked past the second last tile before the cave).
-     * Another check to see if the dragon character is right in front of the cave to see if it can win. This is
-     * recursively called so that the dragon character moves one tile at a time so that the necessary checks can be made.
-     *
-     * Location this turn records all locations that the dragon character has gone through this turn, so that the
-     * dragon character can return to its initial location if needed (collision or not exact amount of moves to enter cave)
-     *
-     * @param dragonCharacter the dragon character to move
-     * @param numberOfMoves the number of moves to make (negative means moving backwards)
-     * @param locationsThisTurn a record of all locations the dragon character has been this turn
 
-
-    private void initiateMove(DragonCharacter dragonCharacter, int numberOfMoves, ArrayList<Location> locationsThisTurn){
-        Location characterLocation = actorLocation.getLocation(dragonCharacter);
-        if (numberOfMoves > 0) {
-            locationsThisTurn.add(characterLocation);
-            if (checkAlmostWin(dragonCharacter)){ // if walking past second last tile
-                dragonCharacter.setCanWin(true);
-            }
-            if (checkForCaveEntrance(dragonCharacter)) {
-                if (dragonCharacter.isCanWin()) {
-                    if (checkForWin(numberOfMoves)) { // if the player can win
-                        achievedVictory = true;
-                        winningPlayerNumber = dragonCharacter.getPlayerNumber();
-                    } else { // if player cannot win adn has to go back to intial location
-                        actorLocation.move(dragonCharacter, locationsThisTurn.get(0));
-                    }
-                } else {
-                    int boardLocationIndex = boardLocations.indexOf(characterLocation);
-                    int newBoardLocationIndex = checkBoardLocationIndexing(boardLocationIndex + 1);
-                    Location newLocation = boardLocations.get(newBoardLocationIndex);
-                    actorLocation.move(dragonCharacter, newLocation);
-                    initiateMove(dragonCharacter, numberOfMoves - 1, locationsThisTurn);
-                }
-            } else {
-                if (characterLocation.cavePresent()) { //to move out of cave
-                    Cave cave = CaveLocation.getInstance().getCave(characterLocation);
-                    actorLocation.move(dragonCharacter, cave.getCaveEntrance());
-                } else {
-                    int boardLocationIndex = boardLocations.indexOf(characterLocation);
-                    int newBoardLocationIndex = checkBoardLocationIndexing(boardLocationIndex + 1);
-                    Location newLocation = boardLocations.get(newBoardLocationIndex);
-                    actorLocation.move(dragonCharacter, newLocation);
-                }
-                initiateMove(dragonCharacter, numberOfMoves - 1, locationsThisTurn);
-            }
-
-        } else if (numberOfMoves < 0) { // to move backwards
-            if (characterLocation.cavePresent() == false) { // does not move back further if in cave
-                if (checkAlmostWin(dragonCharacter)){ // resets flag
-                    dragonCharacter.setCanWin(false);
-                }
-                if (checkForCaveEntrance(dragonCharacter) & !dragonCharacter.isCanWin()) {
-                    Location caveLocation = CaveLocation.getInstance().getLocation(dragonCharacter.getStartingCave());
-                    actorLocation.move(dragonCharacter, caveLocation);
-                } else {
-                    int boardLocationIndex = boardLocations.indexOf(characterLocation);
-                    int newBoardLocationIndex = checkBoardLocationIndexing(boardLocationIndex - 1);
-                    Location newLocation = boardLocations.get(newBoardLocationIndex);
-                    actorLocation.move(dragonCharacter, newLocation);
-
-                }
-                initiateMove(dragonCharacter, numberOfMoves + 1,locationsThisTurn);
-            }
-        }
-    }
-    */
     public void moveDragonCharacter(Player player, int numberOfMoves) {
         DragonCharacter dragonCharacter = player.getDragonCharacter();
         ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
         int locationIndex = dragonCharacter.getLocationIndex();
+        if(caveLocation.hasCave(dragonLocation.getLocation(dragonCharacter))){
+            if(numberOfMoves < 0){
+                return;
+            }
+            locationIndex = locationSet.indexOf(caveLocation.getCave(dragonLocation.getLocation(dragonCharacter)).getCaveEntrance());
+            numberOfMoves -= 1;
+        }
         int newLocationIndex = locationIndex + numberOfMoves;
         movedThisTurn = false;
 
-        if (newLocationIndex >= locationSet.size()) {
-            newLocationIndex = locationIndex;
+        if (newLocationIndex >= locationSet.size()) { //checks if dragon token goes past ending cave
             System.out.println("Oh no! You have gone past your cave. You will now return to your original location");
-        } else {
-            if (newLocationIndex < 0) {
-                newLocationIndex = 0;
-            }
-
+        } else if (newLocationIndex >= 0) {
             Location newLocation = locationSet.get(newLocationIndex);
-            if (!dragonLocation.actorPresent(newLocation)) {
+            if (!dragonLocation.actorPresent(newLocation)) { //checks if collision with other dragon token occurs
                 dragonLocation.move(dragonCharacter, newLocation);
                 dragonCharacter.setLocationIndex(newLocationIndex);
                 movedThisTurn = true;
-            } else if (locationIndex != 0) {
+
+                if(dragonCharacter.getOriginalLocationSet().size() != dragonCharacter.getLocationSet().size()){
+                    if(newLocationIndex > (dragonCharacter.getLocationSet().size() - dragonCharacter.getOriginalLocationSet().size())){
+                        dragonCharacter.setLocationSet(new ArrayList<>(dragonCharacter.getOriginalLocationSet()));
+                        dragonCharacter.setLocationIndex(dragonCharacter.getLocationSet().indexOf(dragonLocation.getLocation(dragonCharacter)));
+                    }
+                }
+            } else{
                 System.out.println("Oh no! Another dragon token is already at that location. you will now return to your original location");
             }
         }
 
-        if (dragonCharacter.getLocationIndex() == locationSet.size() - 1) {
+        if (dragonCharacter.getLocationIndex() == locationSet.size() - 1) { //checks for win
             achievedVictory = true;
             winningPlayerName = dragonCharacter.getName();
         }
@@ -341,48 +293,6 @@ public class GameBoard {
         return fixedBoardLocation;
     }
 
-    /*
-    /**
-     * checks if the dragon character is in front of its starting cave
-      * @param dragonCharacter dragon character to check
-     * @return true if the dragon character is in front of its starting cave, false otherwise
-
-    private boolean checkForCaveEntrance(DragonCharacter dragonCharacter){
-        Cave startingCave = dragonCharacter.getStartingCave();
-        Location caveEntrance = startingCave.getCaveEntrance();
-        if (caveEntrance == dragonLocation.getLocation(dragonCharacter)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * checks if the dragon character is one away from the front of its starting cave
-     * @param dragonCharacter dragon character to check
-     * @return true if the dragon character is one away from the front of its starting cave, false otherwise
-
-    private boolean checkAlmostWin(DragonCharacter dragonCharacter){
-        Cave startingCave = dragonCharacter.getStartingCave();
-        Location caveEntrance = startingCave.getCaveEntrance();
-        Location lastTile = boardLocations.get(boardLocations.indexOf(caveEntrance)-1);
-        if (lastTile == dragonLocation.getLocation(dragonCharacter)){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * checks if the dragon character is suitable to win
-     * @param numberOfMoves the number of moves to make
-     * @return
-
-    private boolean checkForWin(int numberOfMoves){
-        if (numberOfMoves == 1){
-            return true;
-        }
-        return false;
-    }
-    */
 
     /**
      * Inserts the dragon characters onto the board at the start of the game
@@ -397,11 +307,13 @@ public class GameBoard {
                 if (dragonLocation.actorPresent(caveLoc) == false) {
                     dragonLocation.add(dragonCharacter, caveLoc);
                     dragonCharacter.setStartingCave(cave);
+                    //set up list of locations the dragon character will travel through
                     ArrayList<Location> locationSet = new ArrayList<>();
                     locationSet.add(caveLoc);
                     setLocationSet(locationSet, cave.getCaveEntrance());
                     locationSet.add(caveLoc);
-                    dragonCharacter.setLocationSet(locationSet);
+                    dragonCharacter.setOriginalLocationSet(locationSet);
+                    dragonCharacter.setLocationSet(new ArrayList<>(locationSet));
                     dragonCharacter.setLocationIndex(0);
                     break;
                 }
@@ -409,6 +321,11 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Adds onto the location set for dragon characters (locations that dragon tokens walk through)
+     * @param locationSet The location set of the dragon character
+     * @param caveEntrance the entrance of the starting cave of the dragon character
+     */
     private void setLocationSet(ArrayList<Location> locationSet, Location caveEntrance) {
         int index = boardLocations.indexOf(caveEntrance);
         for (int i = 0; i <= boardLocations.size(); i++) {
@@ -438,5 +355,47 @@ public class GameBoard {
         return false;
     }
 
+    public void returnToCave(Player player){
+        DragonCharacter dragonCharacter = player.getDragonCharacter();
+        if(!caveLocation.hasCave(dragonLocation.getLocation(dragonCharacter))) {
+            ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
+            int locationIndex = dragonCharacter.getLocationIndex();
+            ArrayList<Cave> caves = caveLocation.getAllCaves();
+            ArrayList<Location> caveEntrances = new ArrayList<>();
+            ArrayList<Location> newLocations = new ArrayList<>();
+            boolean fallenPastStartingCave = false;
+            for (Cave cave : caves) {
+                if (!dragonLocation.actorPresent(caveLocation.getLocation(cave))) {
+                    caveEntrances.add(cave.getCaveEntrance());
+                } else {
+                    caveEntrances.add(null);
+                }
+            }
+            while (!caveEntrances.contains(locationSet.get(locationIndex))) {
+                locationIndex -= 1;
+                if (locationIndex < 0) {
+                    locationIndex = locationSet.size() - 3;
+                    fallenPastStartingCave = true;
+                }
+                if (fallenPastStartingCave) {
+                    newLocations.add(locationSet.get(locationIndex));
+                }
+            }
+            Cave freeCave = caves.get(caveEntrances.indexOf(locationSet.get(locationIndex)));
+            dragonLocation.move(dragonCharacter, caveLocation.getLocation(freeCave));
+            if (fallenPastStartingCave) {
+                dragonCharacter.getLocationSet().remove(0); // remove starting cave from location set
+                repairLocationSet(dragonCharacter, newLocations); // add all locations from curr to starting cave entrance
+                locationSet.add(0, caveLocation.getLocation(freeCave)); // add curr location
+                dragonCharacter.setLocationIndex(0);
+            }
+        }
+    }
 
+    private void repairLocationSet(DragonCharacter dragonCharacter, ArrayList<Location> newLocations){
+        ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
+        for(Location location : newLocations){
+            locationSet.add(0,location);
+        }
+    }
 }
