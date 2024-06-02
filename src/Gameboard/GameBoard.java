@@ -276,6 +276,34 @@ public class GameBoard {
         }
     }
 
+    public void playerDistanceFromCave(Player player){
+        DragonCharacter dragonCharacter = player.getDragonCharacter();
+
+        int locationIndex = dragonCharacter.getLocationIndex() - 1; // subtract 1 to get the location before the current location
+        int distanceToCave = dragonCharacter.getOriginalLocationSet().size() - locationIndex;
+        System.out.println("Player " + dragonCharacter.getName() + " is " + distanceToCave + " spaces away from their cave.");
+    }
+
+    public void allPLayersLeaderboardRanking(ArrayList<Player> players){
+        ArrayList<Player> listOfPlayers = new ArrayList<>(players);
+
+        listOfPlayers.sort((p1, p2) -> {
+            DragonCharacter dragonCharacter1 = p1.getDragonCharacter();
+            DragonCharacter dragonCharacter2 = p2.getDragonCharacter();
+            int locationIndex1 = dragonCharacter1.getLocationIndex();
+            int locationIndex2 = dragonCharacter2.getLocationIndex();
+            int distanceToCave1 = dragonCharacter1.getOriginalLocationSet().size() - locationIndex1;
+            int distanceToCave2 = dragonCharacter2.getOriginalLocationSet().size() - locationIndex2;
+            return distanceToCave1 - distanceToCave2;
+        });
+
+        int rank = 0;
+        for (Player player : listOfPlayers) {
+            System.out.println("Player " + player.getDragonCharacter().getName() + " is ranked " + ++rank);
+            playerDistanceFromCave(player);
+        }
+    }
+
     /**
      * Methods to ensure no index error when traversing the list of walkable locations
      *

@@ -142,6 +142,8 @@ public class Game {
             }
         }
 
+        gameBoard.allPLayersLeaderboardRanking(players);
+
         if (gameBoard.getAchievedVictory()) {
             turnFinished = true;
             stillRunning = false;
