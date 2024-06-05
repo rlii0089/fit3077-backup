@@ -4,6 +4,7 @@ import Actors.Actor;
 import Actors.DragonCharacter;
 import Game.Location;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,10 @@ import java.util.Map;
  * A class keeps track of the location of every dragon character on the game board
  *
  * @author CL_Monday06pm_Team001
- * @version 1.0.0
+ * @version 1.0.1
  */
 
-public class DragonLocation {
+public class DragonLocation implements Serializable {
     /**
      * map that gets dragon character from location
      */
@@ -25,15 +26,11 @@ public class DragonLocation {
      */
     private Map<DragonCharacter, Location> actorToLocation;
 
-    /**
-     * single instance of the class
-     */
-    private static DragonLocation instance;
 
     /**
      * constructor for DragonLocation
      */
-    private DragonLocation() {
+    public DragonLocation() {
         locationToActor = new HashMap<Location, DragonCharacter>();
         actorToLocation = new HashMap<DragonCharacter, Location>();
     }
@@ -61,6 +58,12 @@ public class DragonLocation {
         locationToActor.put(newLocation, actor);
     }
 
+    public void removeActor(DragonCharacter actor){
+        Location location = actorToLocation.get(actor);
+        actorToLocation.remove(actor);
+        locationToActor.remove(location);
+    }
+
     /**
      * checker to see if dragon character is at location
      *
@@ -77,7 +80,7 @@ public class DragonLocation {
      * @param location location to retrieve dragon character
      * @return dragon character at the location
      */
-    public Actor getActorAt(Location location) {
+    public DragonCharacter getActorAt(Location location) {
         return locationToActor.get(location);
     }
 
@@ -91,16 +94,4 @@ public class DragonLocation {
         return actorToLocation.get(actor);
     }
 
-
-    /**
-     * get an instance of this class
-     *
-     * @return instance of this class
-     */
-    public static DragonLocation getInstance() {
-        if (instance == null) {
-            instance = new DragonLocation();
-        }
-        return instance;
-    }
 }

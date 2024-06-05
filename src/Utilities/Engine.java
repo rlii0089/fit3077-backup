@@ -12,7 +12,7 @@ import java.util.*;
  * A class responsible for setting up all elements of the game at the beginning of the game
  *
  * @author CL_Monday06pm_Team001
- * @version 1.0.1
+ * @version 1.0.3
  */
 
 public class Engine {
@@ -41,15 +41,17 @@ public class Engine {
     }
 
     /**
-     * Initial generation of game board and its components. Creates volcano cards, then the tiles in teh volcano cards,
+     * Initial generation of game board and its components. Creates volcano cards, then the tiles in the volcano cards,
      * then the caves if they should have one and lastly sets up the animals in each tile
-     *
-     * @param lines String representation of the look of the board
-     * @return the game board for the game
+     * @param lines List of strings that depict the game board
+     * @param dragonLocation Location tracker of all dragons
+     * @param animalLocation Location tracker of all animals
+     * @param caveLocation Location tracker of all caves
+     * @return
      */
-    public GameBoard generateGameBoard(List<String> lines) {
+    public GameBoard generateGameBoard(List<String> lines, DragonLocation dragonLocation, AnimalLocation animalLocation, CaveLocation caveLocation) {
 
-        int boardSize = 2; // how many volcano cards on each side of the board, for sprint 2, 8 cards, so board size = 2
+        int boardSize = 2;
         ArrayList<VolcanoCard> volcanoCards = generateVolcanoCards(boardSize);
         ArrayList<VolcanoCard> volcanoCardsWithCave = new ArrayList<>();
         ArrayList<VolcanoCard> volcanoCardsNoCave = new ArrayList<>();
@@ -67,10 +69,11 @@ public class Engine {
         randomiseAnimals(volcanoCardsWithCave);
         randomiseAnimals(volcanoCardsNoCave);
 
-        GameBoard gameBoard = new GameBoard(volcanoCards, lines);
+        GameBoard gameBoard = new GameBoard(volcanoCards, lines, dragonLocation, animalLocation, caveLocation);
 
         return gameBoard;
     }
+
 
     /**
      * Creates the 8 volcano cards for the game board
@@ -200,15 +203,15 @@ public class Engine {
         ArrayList players = new ArrayList();
         ArrayList charList = new ArrayList();
         int numOfPlayers;
-        numOfPlayers = getValidIntegerInput("Enter Number of Players: ", 2, 4);
+        numOfPlayers = getValidIntegerInput("\nEnter Number of Players: ", 2, 4);
         for (int i = 0; i < numOfPlayers; i++) {
-            System.out.println("==========New Player Registration==========");
+            System.out.println("\n========== New Player Registration ==========");
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter Player Name: ");
             String name = scanner.nextLine();
 
-            char displayChar = getValidCharacterInput("Enter Player Character (1 characters): ", charList);
+            char displayChar = getValidCharacterInput("Enter Player Display Character (1 character only): ", charList);
             DragonCharacter dragonCharacter = new DragonCharacter(name, displayChar, i + 1);
 
             int age = getValidIntegerInput("Enter Player Age: ", 0, 122);
@@ -217,6 +220,7 @@ public class Engine {
             gameBoard.insertDragonCharacter(dragonCharacter);
         }
 
+        System.out.println();
         sortPlayerOrder(players);
         return players;
     }

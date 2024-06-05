@@ -1,7 +1,10 @@
 package Gameboard;
 
 import Game.Location;
+import Utilities.AnimalLocation;
+import Utilities.CaveLocation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +13,7 @@ import java.util.ArrayList;
  * @version 1.0.0
  */
 
-public abstract class VolcanoCard {
+public abstract class VolcanoCard implements Serializable {
     /**
      * list of tiles on this volcano card (should have size of 3)
      */
@@ -55,7 +58,7 @@ public abstract class VolcanoCard {
      * @param volcanoCardNumber identifier of the volcano card to find the configuration
      * @param board             the list of locations in the game board
      */
-    public abstract void setLocation(int volcanoCardNumber, GameBoard board);
+    public abstract void setLocation(int volcanoCardNumber, GameBoard board, CaveLocation caveLocation, AnimalLocation animalLocation);
 
     /**
      * Adds the locations that are 'walkable' by dragon tokens

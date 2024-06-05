@@ -23,10 +23,20 @@ public class DragonCharacter extends Actor {
      */
     private int playerNumber;
 
+    /**
+     * The original set of locations the dragon walks upon as soon as it loads into the game
+     */
     private ArrayList<Location> originalLocationSet;
 
+    /**
+     * The current active set of locations the dragon walks upon, this is different to the original set when the
+     * dragon falls behind its starting cave
+     */
     private ArrayList<Location> locationSet;
 
+    /**
+     * The index of the dragon's current location within its dragon set
+     */
     private int locationIndex;
 
     /**
@@ -44,7 +54,7 @@ public class DragonCharacter extends Actor {
     /**
      * getter method for player number
      *
-     * @return the number of the player which is is in charge of this token
+     * @return the number of the player which is in charge of this token
      */
     public int getPlayerNumber() {
         return playerNumber;
@@ -68,27 +78,50 @@ public class DragonCharacter extends Actor {
         this.startingCave = startingCave;
     }
 
-
+    /**
+     * getter for the original location set
+     * @return dragon's original set
+     */
     public ArrayList<Location> getOriginalLocationSet() {
         return originalLocationSet;
     }
 
+    /**
+     * setter for the original location set
+     * @param originalLocationSet the original set of locations the dragon walks upon
+     */
     public void setOriginalLocationSet(ArrayList<Location> originalLocationSet) {
         this.originalLocationSet = originalLocationSet;
     }
 
+    /**
+     * getter for the dragons currently active location set
+     * @return the dragons currently active location set
+     */
     public ArrayList<Location> getLocationSet() {
         return locationSet;
     }
 
+    /**
+     * Setter for the dragons currently active location set
+     * @param locationSet A new set of locations which depict which locations the dragon walks upon
+     */
     public void setLocationSet(ArrayList<Location> locationSet) {
         this.locationSet = locationSet;
     }
 
+    /**
+     * getter for the dragons current location index
+     * @return the dragons current location index
+     */
     public int getLocationIndex() {
         return locationIndex;
     }
 
+    /**
+     * setter for the dragons location index
+     * @param locationIndex the index of the dragons current location within its location set
+     */
     public void setLocationIndex(int locationIndex) {
         this.locationIndex = locationIndex;
     }

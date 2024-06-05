@@ -4,6 +4,7 @@ import Actors.Actor;
 import Actors.Animal;
 import Game.Location;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +12,9 @@ import java.util.Map;
  * A class keeps track of the location of every Animal on the game board
  *
  * @author CL_Monday06pm_Team001
- * @version 1.0.0
+ * @version 1.0.1
  */
-public class AnimalLocation {
+public class AnimalLocation implements Serializable {
 
     /**
      * map that gets Animal from location
@@ -25,16 +26,11 @@ public class AnimalLocation {
      */
     private Map<Animal, Location> animalToLocation;
 
-    /**
-     * single instance of the class
-     */
-
-    private static AnimalLocation instance;
 
     /**
      * constructor for AnimalLocation
      */
-    private AnimalLocation() {
+    public AnimalLocation() {
         locationToAnimal = new HashMap<Location, Animal>();
         animalToLocation = new HashMap<Animal, Location>();
     }
@@ -80,15 +76,5 @@ public class AnimalLocation {
         return animalToLocation.get(actor);
     }
 
-    /**
-     * get an instance of this class
-     *
-     * @return instance of this class
-     */
-    public static AnimalLocation getInstance() {
-        if (instance == null) {
-            instance = new AnimalLocation();
-        }
-        return instance;
-    }
+
 }

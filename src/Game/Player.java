@@ -2,6 +2,8 @@ package Game;
 
 import Actors.DragonCharacter;
 
+import java.io.Serializable;
+
 /**
  * A class used to represent a player of the game
  *
@@ -9,7 +11,7 @@ import Actors.DragonCharacter;
  * @version 1.0.1
  */
 
-public class Player {
+public class Player implements Serializable {
     /**
      * the dragon token this player controls
      */

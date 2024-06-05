@@ -2,6 +2,7 @@ package Utilities;
 
 import Actors.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
  * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
-public class VolcanoCardConfiguration {
+public class VolcanoCardConfiguration implements Serializable {
 
     private static VolcanoCardConfiguration instance = null;
 

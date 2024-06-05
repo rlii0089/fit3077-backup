@@ -3,13 +3,15 @@ package Gameboard;
 import Game.Location;
 import Game.Printable;
 
+import java.io.Serializable;
+
 /**
  * A class that represents the cave object in the game fiery dragon spread across the board
  *
  * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
-public class Cave implements Printable {
+public class Cave implements Printable, Serializable {
 
     /**
      * Location of the tile directly outside the cave

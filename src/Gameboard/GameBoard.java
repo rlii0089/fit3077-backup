@@ -9,8 +9,12 @@ import Utilities.AnimalLocation;
 import Utilities.CaveLocation;
 import Utilities.DragonLocation;
 
+import Utilities.Engine;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A class that represents the game board which is used in Fiery dragon, containing all the volcano cards, the caves
@@ -19,13 +23,14 @@ import java.util.List;
  * animal
  *
  * @author CL_Monday06pm_Team001
- * @version 1.0.1
+ * @version 1.0.4
  */
-public class GameBoard {
+public class GameBoard implements Serializable {
     /**
      * list of the 8 volcano cards
      */
     private ArrayList<VolcanoCard> volcanoCards;
+
 
     /**
      * lists in a list containing All the locations in the game board
@@ -62,20 +67,6 @@ public class GameBoard {
      */
     private ArrayList<Location> boardLocations;
 
-    /**
-     * flag used to see if victory as been achieved by a player
-     */
-    private boolean achievedVictory = false;
-
-    /**
-     * the number of the player that has won
-     */
-    private String winningPlayerName;
-
-    /**
-     * a flag that checks if a dragon token has moved locations this turn
-     */
-    private boolean movedThisTurn;
 
     /**
      * constructor for the game board
@@ -83,30 +74,12 @@ public class GameBoard {
      * @param volcanoCards list of the 8 volcano cards
      * @param lines        String used to present the look of the board
      */
-    public GameBoard(ArrayList<VolcanoCard> volcanoCards, List<String> lines) {
+    public GameBoard(ArrayList<VolcanoCard> volcanoCards, List<String> lines,DragonLocation dragonLocation, AnimalLocation animalLocation, CaveLocation caveLocation) {
         this.volcanoCards = volcanoCards;
-        this.dragonLocation = DragonLocation.getInstance();
-        this.animalLocation = AnimalLocation.getInstance();
-        this.caveLocation = CaveLocation.getInstance();
+        this.dragonLocation = dragonLocation;
+        this.animalLocation = animalLocation;
+        this.caveLocation = caveLocation;
         createStringMap(lines);
-    }
-
-    /**
-     * getter for winning player number
-     *
-     * @return the number of the player that has won
-     */
-    public String getWinningPlayerName() {
-        return winningPlayerName;
-    }
-
-    /**
-     * getter for achieved victory flag
-     *
-     * @return flag used to see if victory as been achieved by a player
-     */
-    public boolean getAchievedVictory() {
-        return achievedVictory;
     }
 
     /**
@@ -149,7 +122,7 @@ public class GameBoard {
         board = new Location[width][height];
         for (int i : widths) {
             for (int j : heights) {
-                board[i][j] = new Location(i, j);
+                board[i][j] = new Location(i, j, dragonLocation, animalLocation, caveLocation);
             }
         }
 
@@ -174,16 +147,8 @@ public class GameBoard {
     public void setLocations() {
 
         for (int i = 0; i < volcanoCards.size(); i++) {
-            volcanoCards.get(i).setLocation(i, this);
+            volcanoCards.get(i).setLocation(i, this, caveLocation, animalLocation);
         }
-    }
-
-    /**
-     * getter for movedThisTurn
-     * @return a flag that checks if a dragon token has moved locations this turn
-     */
-    public boolean isMovedThisTurn() {
-        return movedThisTurn;
     }
 
     /**
@@ -204,7 +169,8 @@ public class GameBoard {
     public void draw() {
         for (int y : heights) {
             for (int x : widths) {
-                System.out.print(this.at(x, y).getDisplayChar());
+                Location location = this.at(x,y);
+                System.out.print(location.getDisplayChar());
             }
             System.out.println("");
         }
@@ -213,89 +179,45 @@ public class GameBoard {
     /**
      * Prints out current location of the dragon token to menu so the player knows what animal he should aim to flip
      * over
+     *
      * @param dragonCharacter dragon character of the current player
      */
     public void printCurrentLocation(DragonCharacter dragonCharacter) {
         Location currLocation = dragonLocation.getLocation(dragonCharacter);
         if (caveLocation.hasCave(currLocation)) {
-            System.out.println("Player " + dragonCharacter.getName() + " is currently in their cave");
+            System.out.println("Player " + dragonCharacter.getName() + " is currently in their cave.");
             Location caveEntrance = caveLocation.getCave(currLocation).getCaveEntrance();
-            System.out.println("Try to find a " + animalLocation.getActorAt(caveEntrance).getName() + " card!");
+            System.out.println("Try to find a " + animalLocation.getActorAt(caveEntrance).getName().toLowerCase() + " card!");
         } else {
-            System.out.println("Player " + dragonCharacter.getName() + " is current on a tile with the animal " + animalLocation.getActorAt(currLocation).getName());
-        }
-    }
-
-
-    /**
-     * Enacts movements of dragon tokens around the board. Firstly, the sequence of locations the specific dragon
-     * token needs to travel is extracted and the new location is found. Then checking is done to ensure the dragon
-     * token does not go past his starting cave, and does not move to a location where another dragon token is
-     * already there. Lastly, dragon token is moved accordingly using actorlocation.
-     *
-     * @param player The player who the current turn belongs to
-     * @param numberOfMoves The number of moves the player should attempt to move
-     */
-
-    public void moveDragonCharacter(Player player, int numberOfMoves) {
-        DragonCharacter dragonCharacter = player.getDragonCharacter();
-        ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
-        int locationIndex = dragonCharacter.getLocationIndex();
-        if(caveLocation.hasCave(dragonLocation.getLocation(dragonCharacter))){
-            if(numberOfMoves < 0){
-                return;
-            }
-            locationIndex = locationSet.indexOf(caveLocation.getCave(dragonLocation.getLocation(dragonCharacter)).getCaveEntrance());
-            numberOfMoves -= 1;
-        }
-        int newLocationIndex = locationIndex + numberOfMoves;
-        movedThisTurn = false;
-
-        if (newLocationIndex >= locationSet.size()) { //checks if dragon token goes past ending cave
-            System.out.println("Oh no! You have gone past your cave. You will now return to your original location");
-        } else if (newLocationIndex >= 0) {
-            Location newLocation = locationSet.get(newLocationIndex);
-            if (!dragonLocation.actorPresent(newLocation)) { //checks if collision with other dragon token occurs
-                dragonLocation.move(dragonCharacter, newLocation);
-                dragonCharacter.setLocationIndex(newLocationIndex);
-                movedThisTurn = true;
-
-                if(dragonCharacter.getOriginalLocationSet().size() != dragonCharacter.getLocationSet().size()){
-                    if(newLocationIndex > (dragonCharacter.getLocationSet().size() - dragonCharacter.getOriginalLocationSet().size())){
-                        dragonCharacter.setLocationSet(new ArrayList<>(dragonCharacter.getOriginalLocationSet()));
-                        dragonCharacter.setLocationIndex(dragonCharacter.getLocationSet().indexOf(dragonLocation.getLocation(dragonCharacter)));
-                    }
-                }
-            } else{
-                System.out.println("Oh no! Another dragon token is already at that location. you will now return to your original location");
-            }
-        }
-
-        if (dragonCharacter.getLocationIndex() == locationSet.size() - 1) { //checks for win
-            achievedVictory = true;
-            winningPlayerName = dragonCharacter.getName();
+            System.out.println("Player " + dragonCharacter.getName() + " is currently on the " + animalLocation.getActorAt(currLocation).getName().toLowerCase() + " tile.");
         }
     }
 
     /**
      * Method to return the number of tiles left for a player to reach their cave
+     *
      * @param player the player whose tiles are being counted
      * @return the number of tiles left for a player to reach their cave
      */
-    public static int numberOfTilesFromCave(Player player){
+    public int numberOfTilesFromCave(Player player) {
         DragonCharacter dragonCharacter = player.getDragonCharacter();
 
         // Add one since location index starts at 0
         int locationIndex = dragonCharacter.getLocationIndex() + 1;
+        Location location = dragonLocation.getLocation(dragonCharacter);
+        if (!dragonCharacter.getLocationSet().contains(location)){
+            locationIndex = dragonCharacter.getLocationSet().indexOf(caveLocation.getCave(location).getCaveEntrance());
+        }
 
-        return dragonCharacter.getOriginalLocationSet().size() - locationIndex;
+        return dragonCharacter.getLocationSet().size() - locationIndex;
     }
 
     /**
      * Sorts the players based on the number of tiles left for them to reach their cave and prints out the leaderboard
+     *
      * @param players list of players to be sorted
      */
-    public void allPLayersLeaderboardRanking(ArrayList<Player> players){
+    public void allPLayersLeaderboardRanking(ArrayList<Player> players) {
         ArrayList<Player> listOfPlayers = new ArrayList<>(players);
 
         // Sort the players based on the number of tiles left for them to reach their cave
@@ -310,7 +232,7 @@ public class GameBoard {
         });
 
         // Print the leaderboard
-        ASCIIDisplayMessage.printLeaderboard(listOfPlayers);
+        ASCIIDisplayMessage.printLeaderboard(listOfPlayers, this);
     }
 
     /**
@@ -360,7 +282,8 @@ public class GameBoard {
 
     /**
      * Adds onto the location set for dragon characters (locations that dragon tokens walk through)
-     * @param locationSet The location set of the dragon character
+     *
+     * @param locationSet  The location set of the dragon character
      * @param caveEntrance the entrance of the starting cave of the dragon character
      */
     private void setLocationSet(ArrayList<Location> locationSet, Location caveEntrance) {
@@ -392,47 +315,4 @@ public class GameBoard {
         return false;
     }
 
-    public void returnToCave(Player player){
-        DragonCharacter dragonCharacter = player.getDragonCharacter();
-        if(!caveLocation.hasCave(dragonLocation.getLocation(dragonCharacter))) {
-            ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
-            int locationIndex = dragonCharacter.getLocationIndex();
-            ArrayList<Cave> caves = caveLocation.getAllCaves();
-            ArrayList<Location> caveEntrances = new ArrayList<>();
-            ArrayList<Location> newLocations = new ArrayList<>();
-            boolean fallenPastStartingCave = false;
-            for (Cave cave : caves) {
-                if (!dragonLocation.actorPresent(caveLocation.getLocation(cave))) {
-                    caveEntrances.add(cave.getCaveEntrance());
-                } else {
-                    caveEntrances.add(null);
-                }
-            }
-            while (!caveEntrances.contains(locationSet.get(locationIndex))) {
-                locationIndex -= 1;
-                if (locationIndex < 0) {
-                    locationIndex = locationSet.size() - 3;
-                    fallenPastStartingCave = true;
-                }
-                if (fallenPastStartingCave) {
-                    newLocations.add(locationSet.get(locationIndex));
-                }
-            }
-            Cave freeCave = caves.get(caveEntrances.indexOf(locationSet.get(locationIndex)));
-            dragonLocation.move(dragonCharacter, caveLocation.getLocation(freeCave));
-            if (fallenPastStartingCave) {
-                dragonCharacter.getLocationSet().remove(0); // remove starting cave from location set
-                repairLocationSet(dragonCharacter, newLocations); // add all locations from curr to starting cave entrance
-                locationSet.add(0, caveLocation.getLocation(freeCave)); // add curr location
-                dragonCharacter.setLocationIndex(0);
-            }
-        }
-    }
-
-    private void repairLocationSet(DragonCharacter dragonCharacter, ArrayList<Location> newLocations){
-        ArrayList<Location> locationSet = dragonCharacter.getLocationSet();
-        for(Location location : newLocations){
-            locationSet.add(0,location);
-        }
-    }
 }

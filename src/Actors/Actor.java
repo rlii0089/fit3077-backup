@@ -2,13 +2,15 @@ package Actors;
 
 import Game.Printable;
 
+import java.io.Serializable;
+
 /**
  * An entity that is alive and a part of the game
  *
  * @author CL_Monday06pm_Team001
  * @version 1.0.0
  */
-public abstract class Actor implements Printable {
+public abstract class Actor implements Printable, Serializable {
     /**
      * The name of the Actor
      */

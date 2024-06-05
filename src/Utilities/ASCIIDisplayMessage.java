@@ -53,7 +53,8 @@ public class ASCIIDisplayMessage {
 
     /**
      * Displays fancy messages to console
-      * @param message fancy message to display
+     *
+     * @param message fancy message to display
      */
     public static void display(String message) {
         for (int i = 0; i < message.length(); i++) {
@@ -67,10 +68,24 @@ public class ASCIIDisplayMessage {
     }
 
     /**
+     * Displays player leaderboard pending message
+     */
+    public static void leaderboardToBeDecided() {
+        System.out.println();
+        System.out.println("│││││││││││││││││││││││││││││││││││");
+        System.out.println("╔═════════════════════════════════╗");
+        System.out.println("║  Player Leaderboard Pending...  ║");
+        System.out.println("╚═════════════════════════════════╝");
+        System.out.println("│││││││││││││││││││││││││││││││││││");
+        System.out.println();
+    }
+
+    /**
      * Prints the leaderboard
+     *
      * @param players list of players
      */
-    public static void printLeaderboard(ArrayList<Player> players) {
+    public static void printLeaderboard(ArrayList<Player> players, GameBoard gameBoard) {
         // Find the length of the longest player name
         int maxPlayerNameLength = 0;
         for (Player player : players) {
@@ -83,33 +98,39 @@ public class ASCIIDisplayMessage {
         // Add 7 to the length to account for the "Player " prefix
         int fullPLayerNameLength = maxPlayerNameLength + 7;
 
-        // Print the leaderboard
-        System.out.println("╔════════╦══" + repeatString("═", fullPLayerNameLength) + "══╦═══════════════════╗");
+        System.out.println("││││││││││││" + repeatString("│", fullPLayerNameLength) + "│││││││││││││││││││││││");
+
+        System.out.println("╔═══════════" + repeatString("═", fullPLayerNameLength) + "══════════════════════╗");
+        System.out.println("║  Leaderboard" + repeatString(" ", fullPLayerNameLength + 20) + "║");
+        System.out.println("╠════════╦══" + repeatString("═", fullPLayerNameLength) + "══╦═══════════════════╣");
         System.out.println("║  Rank  │  Player" + repeatString(" ", fullPLayerNameLength - 6) + "  │  Tiles Remaining  ║");
         System.out.println("╠════════║══" + repeatString("═", fullPLayerNameLength) + "══║═══════════════════╣");
 
         for (Player player : players) {
             // If the number of tiles remaining contains 1 digit, add a leading 0
-            if (GameBoard.numberOfTilesFromCave(player) < 10) {
+            if (gameBoard.numberOfTilesFromCave(player) < 10) {
                 System.out.printf("║   %d    │  %-" + fullPLayerNameLength + "s  │        0%d         ║%n",
                         players.indexOf(player) + 1,
                         "Player " + player.getDragonCharacter().getName(),
-                        GameBoard.numberOfTilesFromCave(player));
+                        gameBoard.numberOfTilesFromCave(player));
             } else {
                 System.out.printf("║   %d    │  %-" + fullPLayerNameLength + "s  │        %d         ║%n",
                         players.indexOf(player) + 1,
                         "Player " + player.getDragonCharacter().getName(),
-                        GameBoard.numberOfTilesFromCave(player));
+                        gameBoard.numberOfTilesFromCave(player));
             }
         }
 
         System.out.println("╚════════╩══" + repeatString("═", fullPLayerNameLength) + "══╩═══════════════════╝");
+
+        System.out.println("││││││││││││" + repeatString("│", fullPLayerNameLength) + "│││││││││││││││││││││││\n");
     }
 
     /**
      * Repeats a string for a given number of times
+     *
      * @param string string to repeat
-     * @param times number of times to repeat
+     * @param times  number of times to repeat
      * @return repeated string
      */
     public static String repeatString(String string, int times) {

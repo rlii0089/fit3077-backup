@@ -3,6 +3,7 @@ package Utilities;
 import Game.Location;
 import Gameboard.Cave;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +12,9 @@ import java.util.Map;
  * A class keeps track of the location of every cave on the game board
  *
  * @author CL_Monday06pm_Team001
- * @version 1.0.0
+ * @version 1.0.1
  */
-public class CaveLocation {
+public class CaveLocation implements Serializable {
 
     /**
      * map that gets cave from location
@@ -26,14 +27,9 @@ public class CaveLocation {
     private Map<Cave, Location> caveToLocation;
 
     /**
-     * single instance of this class
-     */
-    private static CaveLocation instance;
-
-    /**
      * Constructor for CaveLocation
      */
-    private CaveLocation() {
+    public CaveLocation() {
         locationToCave = new HashMap<Location, Cave>();
         caveToLocation = new HashMap<Cave, Location>();
     }
@@ -49,17 +45,6 @@ public class CaveLocation {
         locationToCave.put(location, cave);
     }
 
-    /**
-     * get an instance of this class
-     *
-     * @return instance of this class
-     */
-    public static CaveLocation getInstance() {
-        if (instance == null) {
-            instance = new CaveLocation();
-        }
-        return instance;
-    }
 
     /**
      * checks if there is cave at input location
@@ -91,6 +76,10 @@ public class CaveLocation {
         return caveToLocation.get(cave);
     }
 
+    /**
+     * Retrieves all the caves in the game
+     * @return An array list of all caves in the game
+     */
     public ArrayList<Cave> getAllCaves(){
         ArrayList<Cave> returnList = new ArrayList<>();
         for(Map.Entry<Cave, Location> entry : caveToLocation.entrySet()){

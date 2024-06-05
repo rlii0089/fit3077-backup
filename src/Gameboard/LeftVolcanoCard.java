@@ -1,6 +1,7 @@
 package Gameboard;
 
 import Game.Location;
+import Utilities.AnimalLocation;
 import Utilities.CaveLocation;
 import Utilities.VolcanoCardConfiguration;
 
@@ -21,19 +22,19 @@ public class LeftVolcanoCard extends VolcanoCard {
      * @param board             the list of locations in the game board
      */
     @Override
-    public void setLocation(int volcanoCardNumber, GameBoard board) {
+    public void setLocation(int volcanoCardNumber, GameBoard board, CaveLocation caveLocation, AnimalLocation animalLocation) {
         ArrayList<Integer> coordinates = VolcanoCardConfiguration.getInstance().getLocation(volcanoCardNumber);
         this.location = board.at(coordinates.get(0), coordinates.get(1));
 
         for (int i = 0; i < animalTiles.size(); i++) {
             Location tileLocation = board.at(location.x(), location.y() - 3 * i);
-            animalTiles.get(i).setLocation(tileLocation);
+            animalTiles.get(i).setLocation(tileLocation, animalLocation);
             addToBoardLocations(board, tileLocation);
         }
 
         if (hasCave()) {
-            Location caveLocation = board.at(location.x() - 2, location.y() - 3);
-            CaveLocation.getInstance().add(cave, caveLocation);
+            Location caveLoc = board.at(location.x() - 2, location.y() - 3);
+            caveLocation.add(cave, caveLoc);
             cave.setCaveEntrance(board.at(location.x(), location.y() - 3));
         }
     }
